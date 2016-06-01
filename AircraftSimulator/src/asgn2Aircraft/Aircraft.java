@@ -96,7 +96,7 @@ public abstract class Aircraft {
 	public void cancelBooking(Passenger p,int cancellationTime) throws PassengerException, AircraftException {
 		if (!this.hasPassenger(p)) {
                     throw new AircraftException("Passenger does not have confirmed booking.");
-                }
+		}
 		this.status += Log.setPassengerMsg(p,"C","N");
                 this.seats.remove(p);
                 p.cancelSeat(cancellationTime);
@@ -236,9 +236,9 @@ public abstract class Aircraft {
 	 * @return <code>List<Passenger></code> object containing the passengers.  
 	 */
 	public List<Passenger> getPassengers() {
-                List<Passenger> passengers = new ArrayList();
-                passengers.addAll(this.seats);
-		return passengers;
+		List<Passenger> passengers = new ArrayList();
+        passengers.addAll(this.seats);
+        return passengers;
 	}
 	
 	/**
