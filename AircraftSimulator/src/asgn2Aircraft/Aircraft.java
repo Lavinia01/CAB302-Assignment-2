@@ -76,6 +76,7 @@ public abstract class Aircraft {
 				this.premiumCapacity = premium;
 				this.economyCapacity = economy;
 				this.capacity = (first + business + premium + economy);
+				this.seats = new ArrayList<Passenger>();
 				
 				//Default values should be zero, setting for sanity sake
 				this.numFirst = 0;
@@ -134,7 +135,7 @@ public abstract class Aircraft {
 	 * @throws AircraftException if no seats available in <code>Passenger</code> fare class. 
 	 */
 	public void confirmBooking(Passenger p,int confirmationTime) throws AircraftException, PassengerException { 
-		if(this.seatsAvailable(p)){
+		if(this.seatsAvailable(p) && !this.hasPassenger(p)){
 			
 			//Performs and logs booking of passenger 
 			this.status += Log.setPassengerMsg(p,"N/Q","C");
@@ -365,7 +366,7 @@ public abstract class Aircraft {
 public void upgradeBookings() { 
 		
 		//While first class contains empty seats
-		while((this.firstCapacity - this.numFirst) > 0){
+		while(((this.firstCapacity - this.numFirst) > 0) && this.numBusiness > 0){
 			for(Passenger p : seats){
 				//Find passenger, upgrade passenger and update counts for classes
 				if(p instanceof Business){
@@ -377,7 +378,7 @@ public void upgradeBookings() {
 		}
 		
 		//While business class contains empty seats
-		while((this.businessCapacity - this.numBusiness) > 0){
+		while(((this.businessCapacity - this.numBusiness) > 0) && this.numPremium > 0){
 			for(Passenger p : seats){
 				//Find passenger, upgrade passenger and update counts for classes
 				if(p instanceof Premium){
@@ -389,7 +390,7 @@ public void upgradeBookings() {
 		}
 		
 		//While premium class contains empty seats
-		while((this.premiumCapacity - this.numPremium) > 0){
+		while(((this.premiumCapacity - this.numPremium) > 0) && this.numEconomy > 0){
 			for(Passenger p : seats){
 				//Find passenger, upgrade passenger and update counts for classes
 				if(p instanceof Economy){
