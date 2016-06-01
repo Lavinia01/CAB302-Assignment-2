@@ -29,7 +29,7 @@ public class Business extends Passenger {
 	 */
 	protected Business() {
 		super();
-                this.passID = "J:" + this.passID;
+        this.passID = "J:" + this.passID;
 	}
 	
 	@Override
@@ -39,8 +39,8 @@ public class Business extends Passenger {
 
 	@Override
 	public Passenger upgrade() {
-                First firstClass = new First();
-                this.copyPassengerState(firstClass);
-                return firstClass;
+		Passenger firstObject = new First();
+        this.copyPassengerState(firstObject);
+        return firstObject;
 	}
 }
