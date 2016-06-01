@@ -135,6 +135,8 @@ public abstract class Aircraft {
 	 * @throws AircraftException if no seats available in <code>Passenger</code> fare class. 
 	 */
 	public void confirmBooking(Passenger p,int confirmationTime) throws AircraftException, PassengerException { 
+		
+		//Confirms seat is available and passenger isn't already booked 
 		if(this.seatsAvailable(p) && !this.hasPassenger(p)){
 			
 			//Performs and logs booking of passenger 
@@ -363,7 +365,7 @@ public abstract class Aircraft {
 	 * by upgrades to First), and then finally, we do the same for Economy, upgrading 
 	 * where possible to Premium.  
 	 */
-public void upgradeBookings() { 
+	public void upgradeBookings() { 
 		
 		//While first class contains empty seats
 		while(((this.firstCapacity - this.numFirst) > 0) && this.numBusiness > 0){
