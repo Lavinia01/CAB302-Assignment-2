@@ -183,7 +183,7 @@ public abstract class Passenger {
 	 *         isFlown(this) OR (departureTime <= 0)
 	 */
 	public void flyPassenger(int departureTime) throws PassengerException {
-		if (this.isNew() || this.isQueued() || this.isRefused() || this.isFlown() || (departureTime <= 0)) {
+		if (!this.isConfirmed() || this.isNew() || this.isQueued() || this.isRefused() || this.isFlown() || (departureTime <= 0)) {
 			throw new PassengerException("Cannot fly passenger.");
         }else{
 	        this.confirmed = false;

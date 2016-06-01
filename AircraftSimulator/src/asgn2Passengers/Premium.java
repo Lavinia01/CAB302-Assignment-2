@@ -29,7 +29,7 @@ public class Premium extends Passenger {
 	 */
 	protected Premium() {
 		super();
-                this.passID = "P:" + this.passID;
+        this.passID = "P:" + this.passID;
 	}
 
 	@Override

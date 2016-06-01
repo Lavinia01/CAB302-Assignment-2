@@ -35,8 +35,11 @@ public class PremiumTests {
 	@Test
 	public void testUpgrade() throws PassengerException {
 		
+		final int BOOK_TIME = 0;
+		final int DEPART_TIME = 3;
+		
 		//Create passenger of premium class
-		Passenger p = new Premium(0,1); 
+		Passenger p = new Premium(BOOK_TIME, DEPART_TIME); 
 				
 		assertTrue(p.upgrade() instanceof Business);
 	}
@@ -47,8 +50,12 @@ public class PremiumTests {
 	 */
 	@Test
 	public void testPremiumIntInt() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int DEPART_TIME = 3;
+		
 		//Create passenger of premium class
-		Passenger p = new Premium(0,1); 
+		Passenger p = new Premium(BOOK_TIME, DEPART_TIME); 
 						
 		assertTrue(p instanceof Premium);
 	}

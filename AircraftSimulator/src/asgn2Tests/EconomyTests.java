@@ -36,8 +36,11 @@ public class EconomyTests {
 	@Test
 	public void testUpgrade() throws PassengerException {
 		
-		//Create passenger of business class
-		Passenger p = new Economy(0,1); 
+		final int BOOK_TIME = 0;
+		final int DEPART_TIME = 3;
+		
+		//Create passenger of Economy class
+		Passenger p = new Economy(BOOK_TIME, DEPART_TIME);  
 				
 		assertTrue(p.upgrade() instanceof Premium);
 	}
@@ -49,8 +52,11 @@ public class EconomyTests {
 	@Test
 	public void testEconomy() throws PassengerException {
 		
-		//Create passenger of business class
-		Passenger p = new Economy(0,1); 
+		final int BOOK_TIME = 0;
+		final int DEPART_TIME = 3;
+		
+		//Create passenger of Economy class
+		Passenger p = new Economy(BOOK_TIME, DEPART_TIME);  
 						
 		assertTrue(p instanceof Economy);
 	}
