@@ -21,7 +21,7 @@ public class BusinessTests {
 	/**
 	 * Test method for {@link asgn2Passengers.Business#noSeatsMsg()}.
 	 */
-	//TESTING NOT REQUIRED SUPPLIED
+	//TESTING NOT REQUIRED SUPPLIED METHOD
 	@Test
 	public void testNoSeatsMsg() {
 		assertTrue(true);
