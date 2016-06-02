@@ -7,15 +7,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import asgn2Aircraft.AircraftException;
-import asgn2Passengers.Economy;
 import asgn2Passengers.First;
 import asgn2Passengers.Passenger;
 import asgn2Passengers.PassengerException;
-import asgn2Passengers.Premium;
 
 /**
- * @author Development
+ * @author James Hanford
  *
  */
 public class FirstTests {
@@ -135,7 +132,7 @@ public class FirstTests {
 		final int DEPART_TIME = 3;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger confirmed
         p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
@@ -160,7 +157,7 @@ public class FirstTests {
 		final int DEPART_TIME = 3;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger cancelled
         p.cancelSeat(CANCEL_TIME);
@@ -171,19 +168,43 @@ public class FirstTests {
 	 * @throws PassengerException 
 	 */
 	@Test
-	public void testConfirmSeatTrue() throws PassengerException {
+	public void testConfirmSeatNewPassenger() throws PassengerException {
 		
 		final int BOOK_TIME = 0;
 		final int CONFIRM_TIME = 1;
 		final int DEPART_TIME = 3;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger confirmed
         p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
         
         assertTrue(p.isConfirmed() && !p.isNew() && p.getBookingTime() == BOOK_TIME);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Passengers.Passenger#confirmSeat(int, int)}.
+	 * @throws PassengerException 
+	 */
+	@Test
+	public void testConfirmSeatQueuedPassenger() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int QUEUE_TIME = 1;
+		final int CONFIRM_TIME = 2;
+		final int DEPART_TIME = 3;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Set passenger queued
+        p.queuePassenger(QUEUE_TIME, DEPART_TIME);
+        
+        //Set state of passenger confirmed
+        p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
+        
+        assertTrue(p.isConfirmed() && !p.isQueued() && p.getExitQueueTime() == CONFIRM_TIME && p.getBookingTime() == BOOK_TIME);
 	}
 	
 	/**
@@ -198,7 +219,7 @@ public class FirstTests {
 		final int DEPART_TIME = 3;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger confirmed
         p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
@@ -218,7 +239,7 @@ public class FirstTests {
 		final int NEW_DEPART_TIME = 4;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger confirmed
         p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
@@ -241,7 +262,7 @@ public class FirstTests {
 		final int NEW_DEPART_TIME = 4;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Attempt to fly passenger
         p.flyPassenger(NEW_DEPART_TIME);
@@ -354,17 +375,17 @@ public class FirstTests {
 	public void testQueuePassengerTrue() throws PassengerException {
 		
 		final int BOOK_TIME = 0;
-		final int QUEQUE_TIME = 1;
+		final int QUEUE_TIME = 1;
 		final int DEPART_TIME = 3;
 		final int NEW_DEPART_TIME = 5;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
-        //Attempt queque passenger
-        p.queuePassenger(QUEQUE_TIME, NEW_DEPART_TIME);
+        //Attempt queue passenger
+        p.queuePassenger(QUEUE_TIME, NEW_DEPART_TIME);
         
-        assertTrue(p.isQueued() && !p.isNew() && p.getEnterQueueTime() == QUEQUE_TIME && p.getDepartureTime() == NEW_DEPART_TIME);
+        assertTrue(p.isQueued() && !p.isNew() && p.getEnterQueueTime() == QUEUE_TIME && p.getDepartureTime() == NEW_DEPART_TIME);
 	}
 	
 	/**
@@ -376,26 +397,83 @@ public class FirstTests {
 		
 		final int BOOK_TIME = 0;
 		final int CONFIRM_TIME = 1;
-		final int QUEQUE_TIME = 1;
+		final int QUEUE_TIME = 1;
 		final int DEPART_TIME = 3;
         
 		//Create passenger object
-        Passenger p = new Economy(BOOK_TIME, DEPART_TIME);
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
         
         //Set state of passenger confirmed
         p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
         
-        //Attempt queque passenger
-        p.queuePassenger(QUEQUE_TIME, DEPART_TIME); 
-       }
+        //Attempt queue passenger
+        p.queuePassenger(QUEUE_TIME, DEPART_TIME); 
+    }
 
 	/**
 	 * Test method for {@link asgn2Passengers.Passenger#refusePassenger(int)}.
+	 * @throws PassengerException 
 	 */
 	@Test
-	public void testRefusePassenger() {
-		//TODO
-		fail("Not yet implemented");
+	public void testRefusePassengerNewState() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int REFUSAL_TIME = 1;
+		final int DEPART_TIME = 3;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Attempt refuse passenger
+        p.refusePassenger(REFUSAL_TIME);
+        
+        assert(!p.isNew() && p.isRefused());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Passengers.Passenger#refusePassenger(int)}.
+	 * @throws PassengerException 
+	 */
+	@Test
+	public void testRefusePassengerQueuedState() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int QUEUE_TIME = 2;
+		final int REFUSAL_TIME = 2;
+		final int DEPART_TIME = 3;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Queue passenger
+        p.queuePassenger(QUEUE_TIME, DEPART_TIME);
+        
+        //Attempt refuse passenger
+        p.refusePassenger(REFUSAL_TIME);
+        
+        assert(p.isRefused() && !p.isQueued() && p.getExitQueueTime() == REFUSAL_TIME);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Passengers.Passenger#refusePassenger(int)}.
+	 * @throws PassengerException 
+	 */
+	@Test(expected = PassengerException.class)
+	public void testRefusePassengerInvalidPassenger() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int CONFIRM_TIME = 2;
+		final int REFUSAL_TIME = 2;
+		final int DEPART_TIME = 3;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Set state of passenger confirmed
+        p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
+        
+        //Attempt refuse passenger
+        p.refusePassenger(REFUSAL_TIME);
 	}
 
 	/**
@@ -404,34 +482,105 @@ public class FirstTests {
 	//TESTING NOT REQUIRED SUPPLIED
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertTrue(true);
 	}
 
 	/**
 	 * Test method for {@link asgn2Passengers.Passenger#wasConfirmed()}.
+	 * @throws PassengerException 
 	 */
 	@Test
-	public void testWasConfirmed() {
-		//TODO
-		fail("Not yet implemented");
+	public void testWasConfirmedTrue() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int CONFIRM_TIME = 2;
+		final int CANCEL_TIME = 3;
+		final int DEPART_TIME = 4;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Set state of passenger confirmed
+        p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
+        
+        //Remove state of passenger confirmed
+        p.cancelSeat(CANCEL_TIME);
+        
+        assertTrue(!p.isConfirmed() && p.wasConfirmed());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Passengers.Passenger#wasConfirmed()}.
+	 * @throws PassengerException 
+	 */
+	@Test
+	public void testWasConfirmedFalse() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int CONFIRM_TIME = 2;
+		final int DEPART_TIME = 4;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Set state of passenger confirmed
+        p.confirmSeat(CONFIRM_TIME, DEPART_TIME);
+        
+        assertTrue(p.isConfirmed() && !p.wasConfirmed());
 	}
 
 	/**
 	 * Test method for {@link asgn2Passengers.Passenger#wasQueued()}.
+	 * @throws PassengerException 
 	 */
 	@Test
-	public void testWasQueued() {
-		//TODO Current Implementation is incorrect
-		fail("Not yet implemented");
+	public void testWasQueuedTrue() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int QUEUE_TIME = 2;
+		final int REFUSAL_TIME = 3;
+		final int DEPART_TIME = 4;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Queue passenger
+        p.queuePassenger(QUEUE_TIME, DEPART_TIME);
+        
+        //Attempt refuse passenger
+        p.refusePassenger(REFUSAL_TIME);
+        
+        assertTrue(p.wasQueued() && !p.isQueued());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Passengers.Passenger#wasQueued()}.
+	 * @throws PassengerException 
+	 */
+	@Test
+	public void testWasQueuedFalse() throws PassengerException {
+		
+		final int BOOK_TIME = 0;
+		final int REFUSAL_TIME = 3;
+		final int DEPART_TIME = 4;
+        
+		//Create passenger object
+        Passenger p = new First(BOOK_TIME, DEPART_TIME);
+        
+        //Attempt refuse passenger
+        p.refusePassenger(REFUSAL_TIME);
+        
+        assertFalse(p.wasQueued());
 	}
 
 	/**
 	 * Test method for {@link asgn2Passengers.Passenger#copyPassengerState(asgn2Passengers.Passenger)}.
+	 * @throws PassengerException 
 	 */
+	//TESTING NOT REQUIRED
 	@Test
-	public void testCopyPassengerState() {
-		//TODO
-		fail("Not yet implemented");
+	public void testCopyPassengerState() throws PassengerException {
+		assertTrue(true);
 	}
 
 }
