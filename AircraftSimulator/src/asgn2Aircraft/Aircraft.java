@@ -65,8 +65,9 @@ public abstract class Aircraft {
 	 * @throws AircraftException if isNull(flightCode) OR (departureTime <=0) OR ({first,business,premium,economy} <0)
 	 */
 	public Aircraft(String flightCode,int departureTime, int first, int business, int premium, int economy) throws AircraftException {
-		if(flightCode == null || flightCode.isEmpty()){
-			throw new AircraftException("Null Param");
+		
+		if(flightCode == null || flightCode.isEmpty() || departureTime <= 0 || first < 0 || business < 0 || premium < 0 || economy < 0){
+			throw new AircraftException("Invalid Aircraft params");
 		}else{
 			try{
 				this.flightCode = flightCode;
