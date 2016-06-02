@@ -6,7 +6,6 @@
  */
 package asgn2Simulators;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,7 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.TextArea;
-import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 import org.jfree.chart.ChartPanel;
 
@@ -31,7 +30,7 @@ import org.jfree.chart.ChartPanel;
  *
  */
 @SuppressWarnings("serial")
-public class GUISimulator extends JFrame implements Runnable {
+public class GUISimulator extends JFrame implements Runnable,ActionListener {
 	
 	static GUISimulator GUI;
 	
@@ -74,9 +73,7 @@ public class GUISimulator extends JFrame implements Runnable {
 	public GUISimulator(String arg0) throws HeadlessException {
 		super(arg0);
 		
-		System.out.println("GUI Built");
-		
-		//JFree Chart Panel
+		//JFree Chart Panel (Unused, no implementation)
 	    ChartPanel chartPanel = new ChartPanel(null);
 	    chartPanel.setBackground(Color.WHITE);
 	    
@@ -382,11 +379,12 @@ public class GUISimulator extends JFrame implements Runnable {
 		operationHeader.setFont(new Font("Helvetica", Font.BOLD, 26));
 		
 		runSimButton = new JButton("Run Simulation");
+		runSimButton.addActionListener(this); 
 		runSimButton.setFont(new Font("Ariel", Font.BOLD, 15));
 		runSimButton.setBackground(Color.darkGray);
 		runSimButton.setForeground(Color.white);
 		
-		nextChartButton = new JButton("Show Chart 2");
+		nextChartButton = new JButton("Show Charts");
 		nextChartButton.setFont(new Font("Ariel", Font.BOLD, 15));
 		nextChartButton.setBackground(Color.darkGray);
 		nextChartButton.setForeground(Color.white);
@@ -443,20 +441,18 @@ public class GUISimulator extends JFrame implements Runnable {
 		GUI.setSize(1300,700);
 		GUI.setMinimumSize(new Dimension(1300,700));
 	    GUI.setBackground(Color.darkGray);
-	    //GUI.setResizable(false);
 	    GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GUI.run();
 	}
 	
-	public void showChartPanel(){
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
 		
+		Double mean = Double.parseDouble(dmeanField.getText());
+		String stdDev = Double.toString(mean * 0.33);
+		
+		String[] args = {rngField.getText(), qsizeField.getText(), dmeanField.getText(), stdDev, firstField.getText(), businessField.getText(), premiumField.getText(), economyField.getText(), cancelField.getText()};
+		SimulationRunner.main(args);
 	}
 	
-	//Double.parseDouble(thing) -> Standard deviation = 0.33 * mean
-	//String[] args = {rngField.getText(), etc for 9args}
-	//call simulation runner.main(args)
-
-	
-	
-
 }
